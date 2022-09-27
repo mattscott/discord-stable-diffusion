@@ -53,21 +53,15 @@ def resize_image(resize_mode, im, width, height):
 
 class Text2Image:
     def __init__(self, use_gpu=True):
-        print(f'Text2Image() 1')
         self.device = torch.device('cuda' if use_gpu else 'cpu')
         self.dtype = torch.float16 if use_gpu else torch.float32
         model_name = 'CompVis/stable-diffusion-v1-4'
         token = os.environ['HF_TOKEN']
         
-        print(f'Text2Image() 2')
         self.vae = AutoencoderKL.from_pretrained(model_name, subfolder='vae', revision="fp16", use_auth_token=token)
-        print(f'Text2Image() 3')
         self.unet = UNet2DConditionModel.from_pretrained(model_name, subfolder="unet", revision="fp16", use_auth_token=token)
-        print(f'Text2Image() 4')
         self.tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-large-patch14")
-        print(f'Text2Image() 5')
         self.text_encoder = CLIPTextModel.from_pretrained("openai/clip-vit-large-patch14")
-        print(f'Text2Image() 6')
 
         self.scheduler = LMSDiscreteScheduler(
             beta_start=0.00085, 

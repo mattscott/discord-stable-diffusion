@@ -7,7 +7,6 @@ from src.bot.shanghai import Shanghai
 
 logger = get_logger(__name__)
 
-
 def parse_args():
     parser = argparse.ArgumentParser(
         description='Shanghai - A Discord bot for AI powered utilities.',
@@ -20,21 +19,16 @@ def parse_args():
 
     return parser.parse_args()
 
-
 async def shutdown(bot):
     await bot.close()
 
-
 def main():
-    print(f'starting')
-
     shanghai = None
     args = parse_args()
 
     os.environ['HF_TOKEN'] = args.hf_token
-
+    
     try:
-        print(f'running Shanghai')
         shanghai = Shanghai(args)
         shanghai.run(args.token)
     except KeyboardInterrupt:
@@ -48,7 +42,6 @@ def main():
         asyncio.run(shutdown(shanghai))
     finally:
         sys.exit(0)
-
 
 if __name__ == '__main__':
     main()
